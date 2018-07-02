@@ -1,0 +1,49 @@
+"Get-WinBackup-Status-Report.ps1" is a Powershell script that analyzes
+given  Windows  Backup storage  directory  and  produces  report  that
+display latest backup sets and their sizes.
+.DESCRIPTION
+The script is designed to handle a storage that may contain both  file
+and volume image backup sets, produced by Windows Backup.
+
+It can create report in two formats:  plain  text  and  HTML  and  can
+either output report text to console or send it via email  as  message
+body. The script locates most recent backup  sets  for  each  computer
+that did produce backup set(s) to given  location  and  reports  them.
+Older backup sets will be just not mentioned.
+.PARAMETER Root
+Denotes the root directory of Windows Backup storage.  Can  be  either
+local or UNC path.
+.PARAMETER txt
+Produce report in plain text format. HTML format will be used if  this
+parameter is omitted.
+.PARAMETER mail
+Send produced report to email instead of  simple  console  output.  If
+invoked - further email-related  parameters  to  be  used  to  specify
+details of mailserver and email  message.  Otherwise,  this  parameter
+will be ignored.
+.PARAMETER SmtpSrv
+Hostname or IP address of SMTP server to use for email message sending.
+.PARAMETER Port
+TCP port number of given SMTP server (if it is not standard).
+.PARAMETER To
+Email addresses of recipient(s). Multiple addresses  to  be  separated
+with commas.
+.PARAMETER Fm
+Sender's  email  address.  It  is  also  used  as  username  for  SMTP
+authentication.
+.PARAMETER Pwd
+Password for SMTP authentication.
+.PARAMETER Sub
+Subject line for email message.
+.EXAMPLE
+Get-WinBackup-Status-Report.ps1 -root:\\srv-nas\netbackup
+Generates report in HTML format for given UNC path and outputs  it  to
+console.
+.EXAMPLE
+Get-WinBackup-Status-Report.ps1 \\srv-nas\netbackup -txt
+Generates report in plain text format for given UNC path  and  outputs
+it to console.
+.EXAMPLE
+Get-WinBackup-Status-Report.ps1 -root:D:\backup -mail -SmtpSrv:"192.168.1.10" -To:"sysadmin@platano.domain" -Fm:"nas-robot@platano.domain" -Pwd:"Pa$$wOrD" -Sub:"Windows Backup status report"
+Generates report in HTML format for given UNC path and outputs  it  to
+console.
